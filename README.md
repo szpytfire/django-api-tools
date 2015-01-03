@@ -7,7 +7,7 @@
 * Simple integration with an existing project - choose a subset of models to be served by the API.
 * RESTful JSON endpoints created for your chosen Django models - no need to hard code URLs.
 * Endpoint routing to application specific logic. GET (Read), POST (Create, Update, Deactivate) operations supported by default.
-* Allows the addition of custom endpoints.
+* Allows the addition of custom endpoints. 
 * Authentication via Django's user auth mechanism - provides a means for logging users in and out, as well as custom user permissions on model instances.
 
 
@@ -20,7 +20,7 @@ The add-on offers developers the flexibility in choosing database models to be e
 *** Example views.py using APIView: ***
 
 ```
-#!python
+python
 
 from api_tools.APIView import APIView
 from example.models import Foo, Bar, Profile
@@ -37,7 +37,7 @@ class ExampleAPIView(APIView):
     # Optional attribute:
     # models which allow instances to be created without authentication
     public_create_endpoints = (Profile, )
-
+    
     # Optional attribute:
     # models which allow instances to be updated without authentication
     public_update_endpoints = (Bar, )
@@ -50,6 +50,7 @@ class ExampleAPIView(APIView):
 *** Hook up your API View to your urls.py: ***
 
 ```
+python
 from django.conf.urls import patterns, include, url
 from django.views.decorators.csrf import ensure_csrf_cookie
 from example.views import PollsAPIView
@@ -74,7 +75,7 @@ urlpatterns = patterns('',
 ``` POST /api/logout/ ``` will delete the user's authenticated session (if logged in), and return an empty 200 response.
 
 ### Public Endpoints ###
-Applications often require users to sign up. By default, the add-on requires users either creating or updating a model instance to be authenticated. With this behaviour, APIView would reject any sign up (create) requests. Any models registered in **public_create_endpoints** and **public_update_endpoints** are excepted from the default behaviour. Note however,
+Applications often require users to sign up. By default, the add-on requires users either creating or updating a model instance to be authenticated. With this behaviour, APIView would reject any sign up (create) requests. Any models registered in **public_create_endpoints** and **public_update_endpoints** are excepted from the default behaviour. Note however, 
 
 ### RESTful URLs ###
 
@@ -90,7 +91,7 @@ Each page of results will return, by default, up to 10 resource instances. Where
 
 *Returns:*
 
-* An array of **short** dictionary objects.
+* An array of **short** dictionary objects.   
 * An empty 404 response for an invalid page number or a request to a non-existent page.
 
 **Get an individual resource:**
@@ -101,7 +102,7 @@ Each page of results will return, by default, up to 10 resource instances. Where
 
 *Returns:*
 
-* A **long** dictionary representation of the model instance.
+* A **long** dictionary representation of the model instance. 
 * An empty 404 response if a model instance can't be found, and a custom request mapping can't be found.
 
 *Notes:*
@@ -166,7 +167,7 @@ Django API add-on assumes that the underlying application can deduce, from the r
 
 In the examples below we call this model *Profile*:
 ```
-#!python
+python
 class Profile(APIModel):
     user = models.OneToOneField(User, unique=True, related_name='profile')
 ```
@@ -181,7 +182,7 @@ Suppose we he had an application with a "Wall" which could be read from, written
 In this scenario, for any user, APIModel would always return True for any user.
 
 ```
-#!python
+python
 class Wall(APIModel):
     .
     .
@@ -196,7 +197,7 @@ Suppose our application was changed, such that each "Wall" now had an individual
 We could change ```is_owner``` to return True if the requesting user was the owner of the Wall.
 
 ```
-#!python
+python
 class Profile(APIModel):
     user = models.OneToOneField(User, unique=True, related_name='profile')
 
@@ -216,7 +217,7 @@ We could change our application further so that each "Wall" is owned by a "Group
 ```is_owner``` would now return True if the requesting user was a member of the Group which owned the Wall.
 
 ```
-#!python
+python
 class Group(APIModel):
     .
     .
@@ -238,7 +239,7 @@ class Wall(APIModel):
 
 ## Dictification ##
 
-Dictification is the process of creating a dictionary representation of a model instance.
+Dictification is the process of creating a dictionary representation of a model instance. 
 Although this process is largely taken care of by the underlying APIModel class, subclasses of APIModel must specify what attributes should be used.
 
 ### Long & Short Dictionaries ###
@@ -251,10 +252,11 @@ There are two types of dictification:
 **Example 1:**
 
 ```
+python
 class Choice(APIModel):
     text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
-
+    
     short_description_fields = (id, )
     long_description_fields = (text, votes, )
 
@@ -283,10 +285,11 @@ API add-on supports both short and long dictification of related models:
 **Example 2:**
 
 ```
+python
 class Choice(APIModel):
     text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
-
+    
     short_description_fields = (id, )
     long_description_fields = (text, votes, rel_long_bars)
 
@@ -305,7 +308,7 @@ Upon dictification, APIModel would recognise the attribute *rel_long_bars* as a 
 
 An APIModel's fields can be divided into three categories:
 
-* public_fields - Those that
+* public_fields - Those that 
 * registered_user_fields
 * owner_only_fields
 
@@ -319,7 +322,7 @@ https://docs.djangoproject.com/en/dev/intro/tutorial01/
 
 We change **views.py** to use the Class-based API view:
 ```
-#!python
+python
 
 from api_tools.APIView import APIView
 from polls.models import Question, Choice, Profile
@@ -343,6 +346,7 @@ class PollsAPIView(APIView):
 **urls.py** must be changed to use the class-based view:
 
 ```
+python
 from django.conf.urls import patterns, include, url
 from django.views.decorators.csrf import ensure_csrf_cookie
 from polls.views import PollsAPIView
@@ -357,6 +361,7 @@ Note here that your API URLs don't necessarily have to start with /api/.
 Finally, we must update **models.py**
 
 ```
+python
 from datetime import datetime
 
 from api_tools.APIModel import APIModel
