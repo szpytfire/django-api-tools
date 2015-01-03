@@ -83,6 +83,7 @@ class Baz(BarBaz):
 
 class Qux(BarBaz):
     owner = models.ForeignKey(Baz, related_name='quxs')
+    foos = models.ManyToManyField(Foo)
 
     @classmethod
     def api_custom_request(cls, request):

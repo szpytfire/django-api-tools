@@ -123,6 +123,24 @@ class APIModelTestCase(APIToolsTestCase):
         self.assertEqual(len(dictified_baz['bars']), baz.bars.all().count())
         self.assertDictKeysEqual(dictified_baz['bars'][0], self.remove_foreign_key_fields(baz.bars.all()[0].short_description_fields + baz.bars.all()[0].long_description_fields))
 
+        # Test m2m_short only returns the related models' ID's
+        m2m_short_field = ('m2m_short_foos', )
+        qux = Qux.objects.get(id=1)
+        qux.set_user_auth(user)
+        qux.foos.add(foo)
+
+        dictified_qux = qux.dictify_helper(m2m_short_field, m2m_short_field, False)
+        self.assertEqual(len(dictified_qux), 1)
+        self.assertEqual(len(dictified_qux['foos']), qux.foos.all().count())
+        self.assertDictKeysEqual(dictified_qux['foos'][0], self.remove_foreign_key_fields(qux.foos.all()[0].short_description_fields))
+
+        # Test m2m_long returns the related models' dictify_long()
+        m2m_long_field = ('m2m_long_foos', )
+        dictified_qux = qux.dictify_helper(m2m_long_field, m2m_long_field, False)
+        self.assertEqual(len(dictified_qux), 1)
+        self.assertEqual(len(dictified_qux['foos']), qux.foos.all().count())
+        self.assertDictKeysEqual(dictified_qux['foos'][0], self.remove_foreign_key_fields(qux.foos.all()[0].short_description_fields + qux.foos.all()[0].long_description_fields))
+
     def test_dictify_short(self):
         # Test that the method only returns the short description fields
         foo = Foo.objects.get(id=1)

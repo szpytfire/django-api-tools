@@ -25,6 +25,8 @@ class ReservedPrefix(object):
     REL_LONG = 'rel_long'
     ONE_TO_ONE_SHORT = 'onetoone_short'
     ONE_TO_ONE_LONG = 'onetoone_long'
+    MANY_TO_MANY_SHORT = 'm2m_short'
+    MANY_TO_MANY_LONG = 'm2m_long'
 
 class APIModel(models.Model):
     """
@@ -63,7 +65,9 @@ class APIModel(models.Model):
         ReservedPrefix.REL_SHORT,
         ReservedPrefix.REL_LONG,
         ReservedPrefix.ONE_TO_ONE_SHORT,
-        ReservedPrefix.ONE_TO_ONE_LONG
+        ReservedPrefix.ONE_TO_ONE_LONG,
+        ReservedPrefix.MANY_TO_MANY_SHORT,
+        ReservedPrefix.MANY_TO_MANY_LONG
     ]
 
     def dictify(self, fields_to_include, ommit_related_fields):
@@ -144,9 +148,9 @@ class APIModel(models.Model):
                         dictified_fields[relation] = val.dictify_with_auth(self._curr_user, ommit_related_fields=True)
                     elif prefix in [ReservedPrefix.FK_LONG, ReservedPrefix.ONE_TO_ONE_LONG]:
                         dictified_fields[relation] = val.dictify_with_auth(self._curr_user, short_dict=False, ommit_related_fields=True)
-                    elif prefix == ReservedPrefix.REL_SHORT:
+                    elif prefix in [ReservedPrefix.REL_SHORT, ReservedPrefix.MANY_TO_MANY_SHORT]:
                         dictified_fields[relation] = [rel.dictify_with_auth(self._curr_user, ommit_related_fields=True) for rel in val.all()]
-                    elif prefix == ReservedPrefix.REL_LONG:
+                    elif prefix in [ReservedPrefix.REL_LONG, ReservedPrefix.MANY_TO_MANY_LONG]:
                         dictified_fields[relation] = [rel.dictify_with_auth(self._curr_user, short_dict=False, ommit_related_fields=True) for rel in val.all()]
 
         return dictified_fields
