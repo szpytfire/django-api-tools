@@ -4,13 +4,13 @@ __author__ = 'szpytfire'
 
 setup(
   name = 'Django API Tools',
-  packages = ['Django API Tools'], # this must be the same as the name above
+  packages = ['Django API Tools'],
   version = '0.1',
-  description = 'A random test lib',
+  description = 'Django API add-on is a mini-framework which allows developers to run RESTful APIs alongside websites using Forms/Templates.',
   author = 'Tom Szpytman',
   author_email = 'mail@tomszpytman.com',
-  url = 'https://github.com/peterldowns/mypackage', # use the URL to the github repo
-  download_url = 'https://github.com/peterldowns/mypackage/tarball/0.1', # I'll explain this in a second
-  keywords = ['testing', 'logging', 'example'], # arbitrary keywords
+  url = 'https://github.com/szptfire/django-api-tools',
+  download_url = 'https://github.com/szpytfire/django-api-tools/tarball/0.1',
+  keywords = ['django', 'api', 'rest'],
   classifiers = [],
 )
