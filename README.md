@@ -25,7 +25,7 @@ The add-on offers developers the flexibility in choosing database models to be e
 
 ```python
 
-from api_tools.APIView import APIView
+from django_api_tools.APIView import APIView
 from example.models import Foo, Bar, Profile
 
 
@@ -321,12 +321,14 @@ c.dictify_long()
 
 # Quickstart Guide #
 
+``` sudo pip install django_api_tools ```
+
 The quickstart guide adapts the model setup found in the <a href="https://docs.djangoproject.com/en/dev/intro/tutorial01/">Django Tutorial</a>, illustrating how you can set up and use Django API Tools in an application.
 
 We adapt **views.py** to use the Class-based APIView:
 ```python
 
-from api_tools.APIView import APIView
+from django_api_tools.APIView import APIView
 from polls.models import Question, Choice, Profile
 
 
@@ -367,7 +369,7 @@ Finally, we must create our **models.py**
 ```python
 from datetime import datetime
 
-from api_tools.APIModel import APIModel
+from django_api_tools.APIModel import APIModel
 
 from django.db import models
 from django.contrib.auth.models import User
