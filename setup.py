@@ -3,8 +3,8 @@ from distutils.core import setup
 __author__ = 'szpytfire'
 
 setup(
-  name = 'django-api-tools',
-  packages = ['django-api-tools'],
+  name = 'django_api_tools',
+  packages = ['django_api_tools'],
   version = '0.1',
   description = 'Django API add-on is a mini-framework which allows developers to run RESTful APIs alongside websites using Forms/Templates.',
   author = 'Tom Szpytman',
