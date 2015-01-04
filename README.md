@@ -21,7 +21,7 @@ APIView is the add-on's custom class based view. RESTful endpoints are automatic
 
 The add-on offers developers the flexibility in choosing database models to be exposed by the API, and at a lower level, individual model attributes that can be exposed *(see <a href="#defining-ownership">Defining Ownership below)*.
 
-*** We can write views.py using APIView as below:***
+** We can write views.py using APIView as below:**
 
 ```python
 
@@ -49,7 +49,7 @@ class ExampleAPIView(APIView):
     return_on_login = 'user.profile'
 ```
 
-*** And add support for our new API in urls.py: ***
+** And add support for our new API in urls.py: **
 
 ```python
 from django.conf.urls import patterns, include, url
@@ -76,7 +76,7 @@ urlpatterns = patterns('',
 ``` POST /api/logout/ ``` will delete the user's authenticated session (if logged in), and return an empty 200 response.
 
 ### Public Endpoints ###
-Applications often require users to sign up. By default, the add-on requires authentication to create or update a model instance. With this default behaviour, APIView would reject any sign up requests, as registering users would  require authentication to complete the process. APIView provides a work around for these kinds of scenarios. Any models registered in **public_create_endpoints** and **public_update_endpoints** are immune from the default behaviour, and allow any member of the public to create or update instances belonging to the models registered.
+Applications often require users to sign up. By default, the add-on requires authentication to create or update a model instance. With this default behaviour, APIView would reject any sign up requests, as registering users would  require authentication to complete the process. APIView provides a work around for these kinds of scenarios. Any models registered in **public_create_endpoints** and **public_update_endpoints** are immune from the default behaviour, and allow the public to create or update instances belonging to the models registered.
 
 ### RESTful URLs ###
 
@@ -321,7 +321,7 @@ c.dictify_long()
 
 # Quickstart Guide #
 
-The quickstart guide adapts the models found in <a href="https://docs.djangoproject.com/en/dev/intro/tutorial01/">Django Tutorial</a>, illustrating how you can set up and use Django API Tools in an application.
+The quickstart guide adapts the model setup found in the <a href="https://docs.djangoproject.com/en/dev/intro/tutorial01/">Django Tutorial</a>, illustrating how you can set up and use Django API Tools in an application.
 
 We adapt **views.py** to use the Class-based APIView:
 ```python
@@ -394,14 +394,14 @@ class Profile(APIModel):
       return profile
 
     def api_update(self, request):
-      # APIModel provides default code for deactivation,
-      # so it's wise to call the super api_update even
-      # if you don't have any update logic yourself
-      if self.is_owner(request.user):
-        return super(Profile, self).api_update(request)
+        # APIModel provides default code for deactivation,
+        # so it's wise to call the super api_update even
+        # if you don't have any update logic yourself
+        if self.is_owner(request.user):
+            return super(Profile, self).api_update(request)
 
-      # Empty return if the request user didn't have proper permissions
-      return None
+        # Empty return if the request user didn't have proper permissions
+        return None
 
 class Question(APIModel):
     question_text = models.CharField(max_length=200)
@@ -418,15 +418,15 @@ class Question(APIModel):
         question = Question.objects.create(question_text=request.POST['question'], pub_date=datetime.now())
         return question
 
-        def api_update(self, request):
-          # APIModel provides default code for deactivation,
-          # so it's wise to call the super api_update even
-          # if you don't have any update logic yourself
-          if self.is_owner(request.user):
+    def api_update(self, request):
+        # APIModel provides default code for deactivation,
+        # so it's wise to call the super api_update even
+        # if you don't have any update logic yourself
+        if self.is_owner(request.user):
             return super(Profile, self).api_update(request)
 
-            # Empty return if the request user didn't have proper permissions
-            return None
+        # Empty return if the request user didn't have proper permissions
+        return None
 
 class Choice(APIModel):
     question = models.ForeignKey(Question)
@@ -437,17 +437,17 @@ class Choice(APIModel):
     def is_owner(self, request_user):
       return request_user.profile == self.owner
 
-      @classmethod
-      def api_create(cls, request):
+    @classmethod
+    def api_create(cls, request):
         choice = Choice.objects.create(choice_text=request.POST['text'], owner=request.user)
         return choice
 
-        def api_update(self, request):
-          if request.POST['vote']:
+    def api_update(self, request):
+        if request.POST['vote']:
             self.votes += 1
-          if self.is_owner(request.user):
+        if self.is_owner(request.user):
             return super(Profile, self).api_update(request)
 
-            # Empty return if the request user didn't have proper permissions
-            return None
+        # Empty return if the request user didn't have proper permissions
+        return None
 ```
