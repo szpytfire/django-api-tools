@@ -279,7 +279,7 @@ class APIModel(models.Model):
         :param request: The request object
         :return: Updated instance of the model instance
         """
-        if request.POST.get('deactivate'):
+        if self.is_owner(request.user) and request.POST.get('deactivate'):
             self.active = 0
             self.date_deactivated = datetime.now()
 
