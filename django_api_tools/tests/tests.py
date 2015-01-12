@@ -1,9 +1,9 @@
 import json
 
-from api_tools.APIModel import APIModel, UserAuthCode
-from api_tools.APIView import APIUrl, ReservedURL, StatusCode
-from api_tools.tests.models import Foo, Bar, Baz, Qux, TestProfile
-from api_tools.tests.views import TestAPIView
+from django_api_tools.APIModel import APIModel, UserAuthCode
+from django_api_tools.APIView import APIUrl, ReservedURL, StatusCode
+from django_api_tools.tests.models import Foo, Bar, Baz, Qux, TestProfile
+from django_api_tools.tests.views import TestAPIView
 
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
@@ -224,7 +224,7 @@ class APIModelTestCase(APIToolsTestCase):
 class APIViewTestCase(APIToolsTestCase):
 
     fixtures = ['user_testprofile_foo.json', 'bar_baz_qux.json']
-    urls = 'api_tools.tests.urls'
+    urls = 'django_api_tools.tests.urls'
 
     def setUp(self):
         self.factory = RequestFactory()

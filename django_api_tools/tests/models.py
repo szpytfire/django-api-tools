@@ -1,4 +1,4 @@
-from api_tools.APIModel import APIModel
+from django_api_tools.APIModel import APIModel
 
 from django.db import models
 from django.core.validators import MaxLengthValidator

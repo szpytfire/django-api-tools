@@ -1,5 +1,5 @@
-from api_tools.APIView import APIView
-from api_tools.tests.models import Foo, Bar, Baz, Qux, TestProfile
+from django_api_tools.APIView import APIView
+from django_api_tools.tests.models import Foo, Qux, TestProfile
 
 __author__ = 'szpytfire'
 
